@@ -8,7 +8,7 @@ import java.util.Date;
  * @author DetaX
  */
 @Remote
-public interface Prisoner_managementLocal {
+public interface PrisonerLocal {
     void insert_prisoner(final String name, final String surname, final Date birthDate, final String birthPlace);
     
 }

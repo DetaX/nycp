@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
  * @author DetaX
  */
 @Stateless(mappedName = "ejb/Prisoner_management", name = "Prisoner_management")
-public class Prisoner_managementBean implements Prisoner_managementLocal {
+public class PrisonerBean implements PrisonerLocal {
     @javax.persistence.PersistenceContext(name = "nycpEJBPU")
     private javax.persistence.EntityManager _entity_manager;
 
