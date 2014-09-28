@@ -1,5 +1,6 @@
-package nycpEJB;
+package session;
 
+import entity.Prisoner;
 import java.util.Date;
 import javax.ejb.Stateless;
 
@@ -21,10 +22,6 @@ public class Prisoner_managementBean implements Prisoner_managementLocal {
         prisoner.setDateOfBirth(birthDate);
         prisoner.setPlaceOfBirth(birthPlace);
         _entity_manager.persist(prisoner);
-        /*Customer client = new Customer(bank_code, customer_PIN);
-        client.set_name(name);
-        client.set_address(address);
-        _entity_manager.persist(client);*/
     }
 
 }

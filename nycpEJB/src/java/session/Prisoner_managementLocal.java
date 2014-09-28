@@ -1,4 +1,4 @@
-package nycpEJB;
+package session;
 
 import javax.ejb.Remote;
 import java.util.Date;

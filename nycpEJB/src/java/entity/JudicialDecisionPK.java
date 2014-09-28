@@ -1,4 +1,4 @@
-package nycpEJB;
+package entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  * @author DetaX
  */
 @Embeddable
-public class ShortenedSentencePK implements Serializable {
+public class JudicialDecisionPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1)
@@ -32,10 +32,10 @@ public class ShortenedSentencePK implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfDecision;
 
-    public ShortenedSentencePK() {
+    public JudicialDecisionPK() {
     }
 
-    public ShortenedSentencePK(String decisionTypeNumber, String prisonFileNumber, Date dateOfDecision) {
+    public JudicialDecisionPK(String decisionTypeNumber, String prisonFileNumber, Date dateOfDecision) {
         this.decisionTypeNumber = decisionTypeNumber;
         this.prisonFileNumber = prisonFileNumber;
         this.dateOfDecision = dateOfDecision;
@@ -77,10 +77,10 @@ public class ShortenedSentencePK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ShortenedSentencePK)) {
+        if (!(object instanceof JudicialDecisionPK)) {
             return false;
         }
-        ShortenedSentencePK other = (ShortenedSentencePK) object;
+        JudicialDecisionPK other = (JudicialDecisionPK) object;
         if ((this.decisionTypeNumber == null && other.decisionTypeNumber != null) || (this.decisionTypeNumber != null && !this.decisionTypeNumber.equals(other.decisionTypeNumber))) {
             return false;
         }
@@ -95,7 +95,7 @@ public class ShortenedSentencePK implements Serializable {
 
     @Override
     public String toString() {
-        return "nycpEJB.ShortenedSentencePK[ decisionTypeNumber=" + decisionTypeNumber + ", prisonFileNumber=" + prisonFileNumber + ", dateOfDecision=" + dateOfDecision + " ]";
+        return "nycpEJB.JudicialDecisionPK[ decisionTypeNumber=" + decisionTypeNumber + ", prisonFileNumber=" + prisonFileNumber + ", dateOfDecision=" + dateOfDecision + " ]";
     }
     
 }

@@ -1,4 +1,4 @@
-package nycpEJB;
+package entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
  * @author DetaX
  */
 @Embeddable
-public class JudicialDecisionPK implements Serializable {
+public class ShortenedSentencePK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1)
@@ -32,10 +32,10 @@ public class JudicialDecisionPK implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateOfDecision;
 
-    public JudicialDecisionPK() {
+    public ShortenedSentencePK() {
     }
 
-    public JudicialDecisionPK(String decisionTypeNumber, String prisonFileNumber, Date dateOfDecision) {
+    public ShortenedSentencePK(String decisionTypeNumber, String prisonFileNumber, Date dateOfDecision) {
         this.decisionTypeNumber = decisionTypeNumber;
         this.prisonFileNumber = prisonFileNumber;
         this.dateOfDecision = dateOfDecision;
@@ -77,10 +77,10 @@ public class JudicialDecisionPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof JudicialDecisionPK)) {
+        if (!(object instanceof ShortenedSentencePK)) {
             return false;
         }
-        JudicialDecisionPK other = (JudicialDecisionPK) object;
+        ShortenedSentencePK other = (ShortenedSentencePK) object;
         if ((this.decisionTypeNumber == null && other.decisionTypeNumber != null) || (this.decisionTypeNumber != null && !this.decisionTypeNumber.equals(other.decisionTypeNumber))) {
             return false;
         }
@@ -95,7 +95,7 @@ public class JudicialDecisionPK implements Serializable {
 
     @Override
     public String toString() {
-        return "nycpEJB.JudicialDecisionPK[ decisionTypeNumber=" + decisionTypeNumber + ", prisonFileNumber=" + prisonFileNumber + ", dateOfDecision=" + dateOfDecision + " ]";
+        return "nycpEJB.ShortenedSentencePK[ decisionTypeNumber=" + decisionTypeNumber + ", prisonFileNumber=" + prisonFileNumber + ", dateOfDecision=" + dateOfDecision + " ]";
     }
     
 }
