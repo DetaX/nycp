@@ -1,12 +1,14 @@
 package nycpEJB;
 
-import javax.ejb.Local;
+import javax.ejb.Remote;
+import java.util.Date;
 
 /**
  *
  * @author DetaX
  */
-@Local
+@Remote
 public interface Prisoner_managementLocal {
+    void insert_prisoner(final String name, final String surname, final Date birthDate, final String birthPlace);
     
 }
