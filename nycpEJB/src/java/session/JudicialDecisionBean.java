@@ -20,8 +20,7 @@ public class JudicialDecisionBean implements JudicialDecisionLocal {
     private static final String SHORTENED_SENTENCE = "2";
     private static final String FINAL_DISCHARGE = "3";
     
-    @Override
-    public void insert_judicial_decision(String decision_type_number, Date date_of_decision, String prison_file_number) {
+    private void insert_judicial_decision(String decision_type_number, Date date_of_decision, String prison_file_number) {
         JudicialDecision jd = new JudicialDecision(decision_type_number, prison_file_number, date_of_decision);
         _entity_manager.persist(jd);
     }
