@@ -44,6 +44,14 @@ public class Servlet extends HttpServlet {
     private JudicialDecisionLocal judicial_decision;
     @javax.persistence.PersistenceContext(name = "nycpEJBPU")
     private javax.persistence.EntityManager _entity_manager;
+    
+    private void setPrisoners(HttpServletRequest request) {
+        TypedQuery<String[]> query = _entity_manager.createQuery("SELECT p.givenName,p.surname,p.prisonFileNumber from Prisoner p", String[].class);
+        List<String[]> results = query.getResultList();
+        request.setAttribute("prisoners",results);
+    }
+            
+            
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,7 +67,6 @@ public class Servlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         RequestDispatcher dispatcher;
-        
         switch(request.getServletPath()) {
             case "/incarcerate":
                 String test= "Teeeeest";
@@ -74,34 +81,44 @@ public class Servlet extends HttpServlet {
                 // TODO
                 break;
             case "/conviction":
-                // TODO
-                break;
-            case "/conviction/add":
-                // TODO
-                break;
-            case "/final_discharge":
-                // TODO
-                break;
-            case "/final_discharge/add":
-                // TODO
-                break;
-            case "/shortened_sentence":
-                TypedQuery<String[]> query = _entity_manager.createQuery("SELECT p.givenName,p.surname,p.prisonFileNumber from Prisoner p", String[].class);
-                List<String[]> results = query.getResultList();
-                request.setAttribute("prisoners",results);
-                dispatcher = request.getRequestDispatcher("WEB-INF/shortened_sentence.jsp");
+                setPrisoners(request);
+                dispatcher = request.getRequestDispatcher("WEB-INF/conviction.jsp");
                 dispatcher.forward(request,response);
                 break;
-            case "/shortened_sentence/add":
+            case "/conviction/add":
                 Integer duration = Integer.valueOf(request.getParameter("duration"));
                 String strDate = request.getParameter("date");
                 String prisoner = request.getParameter("prisoner");
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
-                judicial_decision.insert_shortened_sentence(prisoner, date, duration);
-                out.println("Shortened sentence by " + duration + " on prisoner " + prisoner);
+                judicial_decision.insert_conviction(prisoner, date, duration);
+                out.println("Convicted prisoner " + prisoner + " to " + duration + " days");
                 break;
-            default: 
-                // TODO redirect to index.html
+            case "/final_discharge":
+                setPrisoners(request);
+                dispatcher = request.getRequestDispatcher("WEB-INF/final_discharge.jsp");
+                dispatcher.forward(request,response);
+                break;
+            case "/final_discharge/add":
+                prisoner = request.getParameter("prisoner");
+                strDate = request.getParameter("decisionDate");
+                Date decisionDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+                strDate = request.getParameter("dischargeDate");
+                Date dischargeDate = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+                judicial_decision.insert_final_discharge(prisoner, decisionDate, dischargeDate);
+                out.println("Prisoner "+ prisoner + " gets discharged on " + dischargeDate);
+                break;
+            case "/shortened_sentence":
+                setPrisoners(request);
+                dispatcher = request.getRequestDispatcher("WEB-INF/shortened_sentence.jsp");
+                dispatcher.forward(request,response);
+                break;
+            case "/shortened_sentence/add":
+                duration = Integer.valueOf(request.getParameter("duration"));
+                strDate = request.getParameter("date");
+                prisoner = request.getParameter("prisoner");
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+                judicial_decision.insert_shortened_sentence(prisoner, date, duration);
+                out.println("Shortened sentence by " + duration + " days of prisoner " + prisoner);
                 break;
         }
     }
