@@ -1,12 +1,13 @@
 package session;
 import java.util.Date;
 import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author DetaX
  */
-@Remote
+@Local
 public interface IncarcerationLocal {
     void insert_incarceration(final String prisonFileNumber, final String criminalCaseNumber, final String jurisdictionName, final Date incarcerationDate, final String motive);
     void insert_prisoner_criminal_case(final String prisonFileNumber, final String criminalCaseNumber, final String jurisdictionName);

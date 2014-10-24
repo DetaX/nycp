@@ -6,14 +6,14 @@
 package session;
 
 import java.util.Date;
-//import javax.ejb.Local;
+import javax.ejb.Local;
 import javax.ejb.Remote;
 
 /**
  *
  * @author zex
  */
-@Remote
+@Local
 public interface JudicialDecisionLocal {
     void insert_judicial_decision(String decision_type_number, Date date_of_decision, String prison_file_number);
     void insert_shortened_sentence(String prison_file_number, Date date_of_decision, Integer duration);
