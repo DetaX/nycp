@@ -7,7 +7,14 @@ package webapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.persistence.TypedQuery;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,8 +40,10 @@ import session.JudicialDecisionLocal;
 public class Servlet extends HttpServlet {
     @EJB
     private IncarcerationLocal incarceration;
+    @EJB
     private JudicialDecisionLocal judicial_decision;
-
+    @javax.persistence.PersistenceContext(name = "nycpEJBPU")
+    private javax.persistence.EntityManager _entity_manager;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,16 +52,19 @@ public class Servlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.text.ParseException
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException
             {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        RequestDispatcher dispatcher;
+        
         switch(request.getServletPath()) {
             case "/incarcerate":
                 String test= "Teeeeest";
                 request.setAttribute("test",test);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/incarcerate.jsp");
+                dispatcher = request.getRequestDispatcher("WEB-INF/incarcerate.jsp");
                 dispatcher.forward(request,response);
                 break;
             case "/incarcerate/new":
@@ -74,10 +86,19 @@ public class Servlet extends HttpServlet {
                 // TODO
                 break;
             case "/shortened_sentence":
-                // TODO
+                TypedQuery<String[]> query = _entity_manager.createQuery("SELECT p.givenName,p.surname,p.prisonFileNumber from Prisoner p", String[].class);
+                List<String[]> results = query.getResultList();
+                request.setAttribute("prisoners",results);
+                dispatcher = request.getRequestDispatcher("WEB-INF/shortened_sentence.jsp");
+                dispatcher.forward(request,response);
                 break;
             case "/shortened_sentence/add":
-                // TODO
+                Integer duration = Integer.valueOf(request.getParameter("duration"));
+                String strDate = request.getParameter("date");
+                String prisoner = request.getParameter("prisoner");
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+                judicial_decision.insert_shortened_sentence(prisoner, date, duration);
+                out.println("Shortened sentence by " + duration + " on prisoner " + prisoner);
                 break;
             default: 
                 // TODO redirect to index.html
@@ -97,7 +118,11 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
             {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(Servlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -111,7 +136,11 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
             {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(Servlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
