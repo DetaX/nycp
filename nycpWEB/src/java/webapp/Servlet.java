@@ -50,6 +50,18 @@ public class Servlet extends HttpServlet {
         List<String[]> results = query.getResultList();
         request.setAttribute("prisoners",results);
     }
+    
+    private void setJurisdiction(HttpServletRequest request){
+        TypedQuery<String> query = _entity_manager.createQuery("SELECT c.criminalCasePK.jurisdictionName from CriminalCase c", String.class);
+        List<String> results = query.getResultList();
+        request.setAttribute("jurisdiction", results);
+    }
+    
+    private void setMotive(HttpServletRequest request){
+        TypedQuery<String[]> query = _entity_manager.createQuery("SELECT m.motiveNumber, m.motiveLabel from Motive m", String[].class);
+        List<String[]> results = query.getResultList();
+        request.setAttribute("motive", results);
+    }
             
             
     /**
@@ -69,13 +81,25 @@ public class Servlet extends HttpServlet {
         RequestDispatcher dispatcher;
         switch(request.getServletPath()) {
             case "/incarcerate":
-                String test= "Teeeeest";
-                request.setAttribute("test",test);
+                setJurisdiction(request);
+                setMotive(request);
                 dispatcher = request.getRequestDispatcher("WEB-INF/incarcerate.jsp");
                 dispatcher.forward(request,response);
                 break;
-            case "/incarcerate/new":
-                // TODO
+            case "/incarcerate/add":
+                String name = request.getParameter("name");
+                String surname = request.getParameter("surname");
+                String bd = request.getParameter("birthDate");
+                Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(bd);
+                String birthPlace = request.getParameter("birthPlace");
+                String jurisdiction = request.getParameter("jurisdiction");
+                String id = request.getParameter("incarcerationDate");
+                Date incarcerationDate = new SimpleDateFormat("yyyy-MM-dd").parse(id);
+                String d = request.getParameter("date");
+                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+                String motive = request.getParameter("motive");
+                incarceration.incarcerate(name, surname, birthDate, birthPlace, jurisdiction, date, incarcerationDate, motive);
+                out.println("Incarcerated prisoner : " + name + " " + "surname" + ", born on " + birthDate + " in " + birthPlace + "(" + jurisdiction + "). Criminal case pronounced on " + date + "\r\n Incarcerated on " + incarcerationDate + " for motive : " + motive);
                 break;
             case "/under_remand":
                 // TODO
@@ -89,7 +113,7 @@ public class Servlet extends HttpServlet {
                 Integer duration = Integer.valueOf(request.getParameter("duration"));
                 String strDate = request.getParameter("date");
                 String prisoner = request.getParameter("prisoner");
-                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(strDate);
                 judicial_decision.insert_conviction(prisoner, date, duration);
                 out.println("Convicted prisoner " + prisoner + " to " + duration + " days");
                 break;
