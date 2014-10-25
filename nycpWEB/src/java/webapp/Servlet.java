@@ -86,7 +86,7 @@ public class Servlet extends HttpServlet {
                 dispatcher = request.getRequestDispatcher("WEB-INF/incarcerate.jsp");
                 dispatcher.forward(request,response);
                 break;
-            case "/incarcerate/add":
+            case "/incarcerate/new":
                 String name = request.getParameter("name");
                 String surname = request.getParameter("surname");
                 String bd = request.getParameter("birthDate");
