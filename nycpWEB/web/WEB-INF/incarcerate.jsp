@@ -15,7 +15,7 @@
     <body>
         <h1>Incarcerate</h1>
         <a href="index.html">Home</a>
-        <form action="/incarcerate/new" method="post">
+        <form action="incarcerate/new" method="post">
             Name : <input type="text" name="name"/><br/>
             Surname : <input type="text" name="surname"/><br/>
             Date of birth : <input type="date" name="birthDate" /><br/>
