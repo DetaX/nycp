@@ -11,27 +11,36 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Prisoners under remand</title>
+        <link rel="stylesheet" href="pure-min.css">
     </head>
     <body>
-        <h1>Prisoners under remand</h1>
-        <a href="index.html">Home</a>
-        <table>
-    <tr>
-    <th>prison file number</th>
-    <th>given name</th>
-    <th>surname</th>
-    <th>date of birth</th>
-    <th>place of birth</th>
-    </tr>
-            <c:forEach var="prisoner" items="${prisoners}">
+        <a href="index.html" class="pure-button">Home</a>
+        <div style>
+        <fieldset>
+        <legend>Prisoners under remand</legend>
+        <table class="pure-table">
+            <thead>
                 <tr>
-                    <td>${prisoner[3]}</td>
-                    <td>${prisoner[1]}</td>
-                    <td>${prisoner[1]}</td>
-                    <td>${prisoner[4]}</td>
-                    <td>${prisoner[2]}</td>
+                <th>prison file number</th>
+                <th>given name</th>
+                <th>surname</th>
+                <th>date of birth</th>
+                <th>place of birth</th>
                 </tr>
-             </c:forEach>
+            </thead>
+            <tbody>
+                <c:forEach var="prisoner" items="${prisoners}" varStatus="loop">
+                    <tr <c:if test="${loop.count % 2 == 0}">class="pure-table-odd"</c:if>>
+                        <td>${prisoner[3]}</td>
+                        <td>${prisoner[1]}</td>
+                        <td>${prisoner[1]}</td>
+                        <td>${prisoner[4]}</td>
+                        <td>${prisoner[2]}</td>
+                    </tr>
+                 </c:forEach>
+            </tbody>
         </table>
+        </fieldset>
+        </div>
     </body>
 </html>

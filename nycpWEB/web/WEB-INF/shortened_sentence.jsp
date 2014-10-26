@@ -10,19 +10,24 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Take shortened sentence decision</title>
+        <link rel="stylesheet" href="pure-min.css">
     </head>
     <body>
-        <h1>Take shortened sentence decision</h1>
-        <a href="index.html">Home</a>
-        <form action="shortened_sentence/add" method="post">
-            Date of decision : <input type="date" name="date" /><br/>
-            Duration : <input type="number" name="duration" min="0" /><br/>
-            Prisoner : <select name="prisoner" >
+        <a href="index.html" class="pure-button">Home</a>
+        <form action="shortened_sentence/add" method="post" class="pure-form pure-form-aligned">
+            <fieldset>
+                <legend>Take shortened sentence decision</legend>
+                <div class="pure-control-group">
+                
+                    <label for="date">Date of decision</label><input type="date" name="date" id="date"/><br/>
+            <label for="duration">Duration</label><input type="number" name="duration" min="0" id="duration" /><br/>
+            <label for="prisoner">Prisoner</label><select name="prisoner" id="prisoner">
                             <c:forEach var="prisoner" items="${prisoners}">
                                 <option value="${prisoner[2]}">${prisoner[0]} ${prisoner[1]}</option>
                             </c:forEach>
             </select><br/>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" class="pure-button pure-button-primary" />
+            </fieldset>
         </form>
 
     </body>
