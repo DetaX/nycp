@@ -60,12 +60,12 @@ public class IncarcerationBean implements IncarcerationLocal {
     }
 
     @Override
-    public void insert_motive(String label) {
+    public String insert_motive(String label) {
         String _query = (String)_entity_manager.createQuery("select max(m.motiveNumber) from Motive m").getSingleResult();
         Integer motive_number = (_query == null) ? 0 : Integer.valueOf(_query) + 1;
         Motive m = new Motive(motive_number.toString());
         m.setMotiveLabel(label);
         _entity_manager.persist(m);
+        return Integer.toString(motive_number);
     }
-
 }

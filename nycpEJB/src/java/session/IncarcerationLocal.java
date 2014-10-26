@@ -9,5 +9,5 @@ import javax.ejb.Local;
 @Local
 public interface IncarcerationLocal {
     void incarcerate(final String name, final String surname, final Date birthDate, final String birthPlace, final String jurisdictionName, final Date date, final Date incarcerationDate, final String motive);
-    void insert_motive(final String label);
+    String insert_motive(final String label);
 }
