@@ -2,7 +2,6 @@ package session;
 
 import java.util.Date;
 import javax.ejb.Local;
-
 /**
  *
  * @author DetaX

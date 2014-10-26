@@ -8,14 +8,14 @@ import javax.ejb.Stateless;
  *
  * @author DetaX
  */
-@Stateless(mappedName = "ejb/CriminalCase", name = "CriminalCase")
+@Stateless(mappedName = "ejb/CriminalCase")
 public class CriminalCaseBean implements CriminalCaseLocal {
     @javax.persistence.PersistenceContext(name = "nycpEJBPU")
     private javax.persistence.EntityManager _entity_manager;
         
     @Override
     public String insert_criminal_case(String jurisdictionName, Date date) {
-        String _query = (String)_entity_manager.createQuery("select max(c.criminalCasePK.criminalCaseNumber) from CriminalCase c").getSingleResult();
+        String _query = (String)_entity_manager.createQuery("select cast(max(cast(c.criminalCasePK.criminalCaseNumber as int)) as char(20)) from CriminalCase c").getSingleResult();
         Integer case_number = (_query == null) ? 0 : Integer.valueOf(_query) + 1;
         CriminalCase cc = new CriminalCase(case_number.toString(), jurisdictionName);
         cc.setDateOfCriminalCase(date);

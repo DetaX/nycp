@@ -4,16 +4,19 @@ import entity.Motive;
 import entity.PrisonerCriminalCase;
 import entity.Prisoner;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author DetaX
  */
-@Stateless(mappedName = "ejb/Incarceration", name = "Incarceration")
+@Stateless(mappedName = "ejb/Incarceration")
 public class IncarcerationBean implements IncarcerationLocal {
     @javax.persistence.PersistenceContext(name = "nycpEJBPU")
     private javax.persistence.EntityManager _entity_manager;
+    @EJB
+    private CriminalCaseLocal ccm;
             
     private void insert_incarceration(String prisonFileNumber, String criminalCaseNumber, String jurisdictionName, Date incarcerationDate, String motive) {
         Incarceration i = new Incarceration(prisonFileNumber);
@@ -31,7 +34,7 @@ public class IncarcerationBean implements IncarcerationLocal {
     }
     
     private String insert_prisoner(String name, String surname, Date birthDate, String birthPlace) {
-        String _query = (String)_entity_manager.createQuery("select max(p.prisonFileNumber) from Prisoner p").getSingleResult();
+        String _query = (String)_entity_manager.createQuery("select cast(max(cast(p.prisonFileNumber as int)) as char(20)) from Prisoner p").getSingleResult();
         Integer file_number = (_query == null) ? 0 : Integer.valueOf(_query) + 1;
         Prisoner prisoner = new Prisoner(file_number.toString());
         prisoner.setGivenName(name);
@@ -45,8 +48,6 @@ public class IncarcerationBean implements IncarcerationLocal {
     @Override
     public void incarcerate(String name, String surname, Date birthDate, String birthPlace, String jurisdictionName, Date date, Date incarcerationDate, String motive) {
         try {
-       javax.naming.Context jndi_context = new javax.naming.InitialContext();
-       CriminalCaseLocal ccm = (CriminalCaseLocal) jndi_context.lookup("ejb/CriminalCase");
        String file_number = insert_prisoner(name,surname,birthDate,birthPlace);
        String case_number = ccm.insert_criminal_case(jurisdictionName, date);
        insert_prisoner_criminal_case(file_number,case_number,jurisdictionName);
