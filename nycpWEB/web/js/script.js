@@ -1,4 +1,11 @@
 $(document).ready(function(){
+    if($("#jurisdiction").val() === "new"){
+         $("#newJurisdiction").css("display","inline");
+     }
+     if($("#motive").val() === "new"){
+         $("#newMotive").css("display","inline");
+     }
+    
     $("#jurisdiction").change(function(){
      if($("#jurisdiction").val() === "new"){
          $("#newJurisdiction").css("display","inline");

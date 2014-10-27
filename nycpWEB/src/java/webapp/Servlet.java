@@ -129,10 +129,12 @@ public class Servlet extends HttpServlet {
                 String d = request.getParameter("date");
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
                 
-                incarceration.incarcerate(name, surname, birthDate, birthPlace, jurisdiction, date, incarcerationDate, motive);
-                out.println("<a href='../index.html'>Home</a><br/>");
-                out.println("Incarcerated prisoner : " + name + " " + "surname" + ", born on " + birthDate + " in " + birthPlace + ". Criminal case pronounced on " + date + " (" + jurisdiction + ")");
-                out.println("<br/>Incarcerated on " + incarcerationDate + " for motive : " + motive);
+                if (!name.equals("") && !surname.equals("") && !birthPlace.equals("")) {
+                    incarceration.incarcerate(name, surname, birthDate, birthPlace, jurisdiction, date, incarcerationDate, motive);
+                    out.println("<a href='../index.html'>Home</a><br/>");
+                    out.println("Incarcerated prisoner : " + name + " " + surname + ", born on " + birthDate + " in " + birthPlace + ". Criminal case pronounced on " + date + " (" + jurisdiction + ")");
+                    out.println("<br/>Incarcerated on " + incarcerationDate + " for motive : " + motive);
+        } else out.println("Give valid name and surname");
                 break;
             case "/under_remand":
                 List<Prisoner> prisoners = under_remand.get_under_remand();
