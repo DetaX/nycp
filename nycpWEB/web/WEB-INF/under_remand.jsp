@@ -32,7 +32,7 @@
                 <c:forEach var="prisoner" items="${prisoners}" varStatus="loop">
                     <tr <c:if test="${loop.count % 2 == 0}">class="pure-table-odd"</c:if>>
                         <td>${prisoner[3]}</td>
-                        <td>${prisoner[1]}</td>
+                        <td>${prisoner[0]}</td>
                         <td>${prisoner[1]}</td>
                         <td>${prisoner[4]}</td>
                         <td>${prisoner[2]}</td>
