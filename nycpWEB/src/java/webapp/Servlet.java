@@ -104,20 +104,6 @@ public class Servlet extends HttpServlet {
                 dispatcher.forward(request,response);
                 break;
             case "/incarcerate/new":
-                String jurisdiction;
-                String motive;
-                String newJurisdiction = request.getParameter("newJurisdiction");
-                if(newJurisdiction.equals(""))
-                    jurisdiction = request.getParameter("jurisdiction");
-                else
-                    jurisdiction = request.getParameter("newJurisdiction");
-                
-                String newMotive = request.getParameter("newMotive");
-                if(newMotive.equals(""))
-                    motive = request.getParameter("motive");
-                else{  
-                    motive = incarceration.insert_motive(request.getParameter("newMotive"));
-                }    
                 String name = request.getParameter("name");
                 String surname = request.getParameter("surname");
                 String bd = request.getParameter("birthDate");
@@ -128,13 +114,27 @@ public class Servlet extends HttpServlet {
                 Date incarcerationDate = new SimpleDateFormat("yyyy-MM-dd").parse(id);
                 String d = request.getParameter("date");
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(d);
-                
+
+                String jurisdiction;
+                String motive;
+                String newJurisdiction = request.getParameter("newJurisdiction");
+                if(newJurisdiction.equals(""))
+                    jurisdiction = request.getParameter("jurisdiction");
+                else
+                    jurisdiction = request.getParameter("newJurisdiction");
+
+                String newMotive = request.getParameter("newMotive");
+                if(newMotive.equals(""))
+                    motive = request.getParameter("motive");
+                else{  
+                    motive = incarceration.insert_motive(request.getParameter("newMotive"));
+                } 
                 if (!name.equals("") && !surname.equals("") && !birthPlace.equals("")) {
                     incarceration.incarcerate(name, surname, birthDate, birthPlace, jurisdiction, date, incarcerationDate, motive);
                     out.println("<a href='../index.html'>Home</a><br/>");
                     out.println("Incarcerated prisoner : " + name + " " + surname + ", born on " + birthDate + " in " + birthPlace + ". Criminal case pronounced on " + date + " (" + jurisdiction + ")");
                     out.println("<br/>Incarcerated on " + incarcerationDate + " for motive : " + motive);
-        } else out.println("Give valid name and surname");
+                } else out.println("Give valid informations");
                 break;
             case "/under_remand":
                 List<Prisoner> prisoners = under_remand.get_under_remand();
